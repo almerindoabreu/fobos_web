@@ -8,16 +8,16 @@ import { Form, Col } from 'react-bootstrap';
 import * as S from "./styled"
 import api from "../../services/api"
 
-import {header} from './header'
+import { header } from './header'
 
 const CadastroUsuarioPage = () => {
 
   const [user, setUser] = useState({
     name: ''
   });
-  
+
   const [users, setUsers] = useState([]);
-  
+
   const [loading, setLoading] = useState(false);
 
   const [resposta, setResposta] = useState({
@@ -26,13 +26,13 @@ const CadastroUsuarioPage = () => {
     text: '',
   })
 
-  useEffect (() => {
+  useEffect(() => {
     indexUser();
-  }, [user])
+  })
 
   const saveUser = async () => {
     setLoading(true);
-    const response = await api.post("/api/user/save",  user );
+    const response = await api.post("/api/user/save", user);
     setResposta(response.data);
     indexUser();
     setLoading(false);
@@ -43,7 +43,7 @@ const CadastroUsuarioPage = () => {
     const response = await api.get("/api/user/users");
     setUsers(response.data);
   }
-    
+
   const emptyAfterSave = async () => {
     setUser({
       name: ''
@@ -51,7 +51,7 @@ const CadastroUsuarioPage = () => {
   }
 
   const editValues = async (id) => {
-    const response = await api.get("/api/user/show/" + id);
+    const response = await api.get("/api/user/users/" + id);
     setUser(response.data);
   }
 
@@ -61,20 +61,20 @@ const CadastroUsuarioPage = () => {
     setResposta(response.data);
   }
 
-  return(
+  return (
     <S.CadastroBancoWrapper>
-      <Title title={"Cadastro de Usuário"} size={42}/>
-      <Feedback resposta={resposta} setResposta={setResposta}/>
+      <Title title={"Cadastro de Usuário"} size={42} />
+      <Feedback resposta={resposta} setResposta={setResposta} />
       <S.FormDiv>
         <Form>
           <Form.Row>
             <Form.Group as={Col} md="4" controlId="usuario">
               <Form.Label>Proprietário do Cartão</Form.Label>
-              <Form.Control type="text" 
-              value={user.name}
-              onChange={event => {
-                setUser({...user, name: event.target.value})
-              }}/>
+              <Form.Control type="text"
+                value={user.name}
+                onChange={event => {
+                  setUser({ ...user, name: event.target.value })
+                }} />
             </Form.Group>
 
           </Form.Row>
@@ -82,12 +82,12 @@ const CadastroUsuarioPage = () => {
             <ButtonForm
               loading={loading}
               title={"Salvar"}
-              onClick={saveUser}/>
+              onClick={saveUser} />
           </Form.Row>
         </Form>
       </S.FormDiv>
 
-      <Table header={header} datas={users} action={true} editValues={editValues} deleteValues={deleteValues}/>
+      <Table header={header} datas={users} action={true} editValues={editValues} deleteValues={deleteValues} />
 
     </S.CadastroBancoWrapper>
   );

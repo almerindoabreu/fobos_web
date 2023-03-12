@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useLayoutEffect } from 'react'
 import Title from "../../components/Title"
 import ButtonForm from "../../components/ButtonForm"
 import Feedback from "../../components/Feedback"
@@ -25,22 +25,22 @@ const CadastroCategoriaPage = () => {
   })
 
   const [loading, setLoading] = useState(false);
+  const [loadingTable, setLoadingTable] = useState(false);
 
   useEffect (() => {
-    indexCategory();
-  }, [category])
-
-  useEffect (() => {
-    indexCategoryType();
+      indexCategoryType();
+      indexCategory();
   }, [])
 
   const saveCategory = async () => {
     setLoading(true);
+
     const response = await api.post("/api/category/save",  category );
     setResposta(response.data);
     indexCategory();
     setLoading(false);
     emptyAfterSave();
+
   }
 
   const indexCategoryType = async () => {
@@ -48,8 +48,15 @@ const CadastroCategoriaPage = () => {
     setCategoryTypes(response.data);
   }
   const indexCategory = async () => {
-    const response = await api.get("/api/category/categories");
-    setCategories(response.data);
+    try {
+      setLoadingTable(true);
+      const response = await api.get("/api/category/categories");
+      setCategories(response.data);
+    }catch (e){
+
+    }finally{
+      setLoadingTable(false);
+    }
   }
 
   const emptyAfterSave = async () => {
@@ -61,9 +68,8 @@ const CadastroCategoriaPage = () => {
   }
 
   const editValues = async (id) => {
-    const response = await api.get("/api/category/show/" + id);
+    const response = await api.get("/api/category/categories/" + id);
     setCategory(response.data);
-    indexCategory();
   }
 
   const deleteValues = async (id) => {
@@ -118,6 +124,7 @@ const CadastroCategoriaPage = () => {
       <Table 
         header={header}
         datas={categories}
+        loadingTable={loadingTable}
         itemSelected={category.id}
         action={true}
         editValues={editValues}

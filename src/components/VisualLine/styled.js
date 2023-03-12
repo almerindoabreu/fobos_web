@@ -4,7 +4,7 @@ export const VisualLineWrapper = styled.div`
   display: ${props => (props.headerMode == 'high-mode' ? "flex" : "none")};
   flex-direction: column;
   width: 100%;
-  margin: 28px 0px ;
+  margin: 0px 0px ;
 `
 export const VisualLineBlue = styled.div`
   display: flex;

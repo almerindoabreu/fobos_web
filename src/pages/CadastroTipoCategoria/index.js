@@ -10,7 +10,7 @@ import * as S from "./styled"
 import api from "../../services/api"
 import {header} from './header'
 
-const CadastroTipoCategoriaPage = (props) => {
+const CadastroTipoCategoriaPage = () => {
   const [categoryTypes, setCategoryTypes] = useState([]);
   const [categoryType, setCategoryType] = useState({
     name: '',
@@ -23,22 +23,32 @@ const CadastroTipoCategoriaPage = (props) => {
   })
 
   const [loading, setLoading] = useState(false);
+  const [loadingTable, setLoadingTable] = useState(false);
 
   useEffect (() => {
     indexCategoryType();
-  }, [categoryType])
+  }, [])
 
   const saveCategoryType = async () => {
+
     setLoading(true);
     const response = await api.post("/api/categoryType/save",  categoryType );
     setResposta(response.data);
     setLoading(false);
     emptyAfterSave();
+    indexCategoryType();
   }
 
   const indexCategoryType = async () => {
-    const response = await api.get("/api/categoryType/categoryTypes");
-    setCategoryTypes(response.data);
+    try {
+      setLoadingTable(true);
+      const response = await api.get("/api/categoryType/categoryTypes");
+      setCategoryTypes(response.data);
+    }catch(e){
+      
+    }finally{
+      setLoadingTable(false);
+    }
   }
   
   const emptyAfterSave = async () => {
@@ -50,17 +60,9 @@ const CadastroTipoCategoriaPage = (props) => {
 
   const editValues = async (id) => {
 
-    props.setLoadingScreen(true);
-    var start = new Date().getTime();
-    const response = await api.get("/api/categoryType/show/" + id);
+    const response = await api.get("/api/categoryType/categoryTypes/" + id);
     setCategoryType(response.data);
-    indexCategoryType();
 
-    var end = new Date().getTime();
-    var time = end - start;
-    alert('Execution time: ' + time);
-
-    props.setLoadingScreen(false);
   }
 
   const deleteValues = async (id) => {
@@ -111,7 +113,7 @@ const CadastroTipoCategoriaPage = (props) => {
         </Form>
       </S.FormDiv>
 
-      <Table header={header} datas={categoryTypes} action={true} editValues={editValues} deleteValues={deleteValues}/>
+      <Table header={header} datas={categoryTypes} loadingTable={loadingTable} action={true} editValues={editValues} deleteValues={deleteValues}/>
 
 
     </S.CadastroTipoCategoriaWrapper>

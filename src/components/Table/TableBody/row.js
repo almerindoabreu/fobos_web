@@ -5,7 +5,19 @@ import moment from "moment";
 import * as S from "./../styled"
 
 const Row = (props) => {
-  
+
+  const editRow = (id) => {
+    props.editValues(id); //função para chamar o metodo get da api para pesquisar a entidade da tabela por id
+
+    // movimento na barra de rolagem da página
+    // setTimeout(function() { 
+    //   window.scroll({
+    //     top: 21,
+    //     behavior: "smooth"
+    //   });
+    //  }, 100);
+  }
+
   return (
     <>
       {props.header.map((h, i) => {
@@ -30,7 +42,7 @@ const Row = (props) => {
       {props.action ?
         <S.TableTd className="col-action">
           <S.WrapperIcon>
-          <S.LinkIcon onClick={() => props.editValues(props.row.id)}>
+          <S.LinkIcon onClick={() => editRow(props.row.id)}>
             <S.EditIcon />
           </S.LinkIcon>
           <S.LinkIcon onClick={() => props.deleteValues(props.row.id)}>

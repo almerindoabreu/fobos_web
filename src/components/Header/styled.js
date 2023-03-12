@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const HeaderWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  height: ${props => (props.headerMode == 'high-mode' ? "250px" : "50px")};
+  height: ${props => (props.headerMode == 'high-mode' ? "180px" : "50px")};
   width: 100%;
   position: ${props => (props.headerMode == 'high-mode' ? "relative" : "fixed")};
   z-index: 9999;

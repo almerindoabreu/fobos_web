@@ -11,17 +11,23 @@ import CadastroMetaPage from "./pages/CadastroMeta";
 import GraficosPage from "./pages/Graficos"; 
 import HomePage from "./pages/Home"; 
 
-const Routes = () => {
+const Routes = (props) => {
   return (
     <BrowserRouter>
       <Switch>
         <Route path="/Graficos" component={GraficosPage}/>
         <Route path="/ImportarExtrato" component={ImportarExtratoPage}/>
         <Route path="/CadastroBanco" component={CadastroBancoPage}/>
-        <Route path="/CadastroCartao" component={CadastroCartaoPage}/>
-        <Route path="/CadastroTipoCategoria" component={CadastroTipoCategoriaPage}/>
+        <Route path="/CadastroCartao" 
+          render={() => <CadastroCartaoPage {...props} />}
+        />
+        <Route path="/CadastroTipoCategoria" 
+          render={() => <CadastroTipoCategoriaPage { ...props} />}
+        />
         <Route path="/CadastroUsuario" component={CadastroUsuarioPage}/>
-        <Route path="/CadastroCategoria" component={CadastroCategoriaPage}/>
+        <Route path="/CadastroCategoria"  
+          render={() => <CadastroCategoriaPage { ...props} />}
+        />
         <Route path="/CategorizarGastos" component={CategorizarGastosPage}/>
         <Route path="/CadastroMeta" component={CadastroMetaPage}/>
         <Route path="/" component={HomePage}/>

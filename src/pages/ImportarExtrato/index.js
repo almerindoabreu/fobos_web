@@ -23,7 +23,7 @@ const ImportarExtratoPage = () => {
   const [card, setCard] = useState({});
   const [cards, setCards] = useState([]);
   const [Statements, setStatements] = useState([]);
-  const [cardSelected, setCardSelected] = useState({value: '', idCard: ''});
+  const [cardSelected, setCardSelected] = useState({value: '', name: '', idCard: ''});
     
   const [loading, setLoading] = useState(false);
 
@@ -59,7 +59,7 @@ const deleteValues = async (id) => {
 }
 
 const loadCard = async (id) => {
-  const response = await api.get("/api/card/show/" + id);
+  const response = await api.get("/api/card/cards/" + id);
   setCardSelected(response.data.bank.name + ' - ' + card.name + card.agency + " - " + card.account);
   //setCardSelected(response.data);
   //{card.bank.name + " - " + card.name + " - " + card.agency + " - " + card.account}
@@ -94,15 +94,16 @@ const loadCard = async (id) => {
       /* Update state */
       let StatementsArray = [];
       dataFile.map(data => {
-        let newDate = excelFormatter.excelDateToDate(data.date);
-        console.log("moment(data.date ,'DD/MM/YYYY')");
-        console.log(newDate);
+        //let newDate = excelFormatter.excelDateToDate(data.date);
+        //console.log("moment(data.date ,'DD/MM/YYYY')");
+        //console.log(newDate);
         StatementsArray.push({
           name: data.name,
           description: data.description,
-          date: moment(newDate ,'YYYY-MM-DD'),
-          value: parseFloat((data.value).toString().replace(',','.')).toFixed(2),
-          fkCard: parseInt(cardSelected.idCard)
+          date: moment(data.date, "DD/MM/YYYY"),
+          value: data.value,
+          fkCard: parseInt(cardSelected.idCard),
+          card: cardSelected,
         })
       })
       setStatements(StatementsArray);
@@ -137,12 +138,16 @@ const loadCard = async (id) => {
               <Form.Control type="text" as="select"
                 value={cardSelected.value}
                 onChange={event => {
-                  setCardSelected({value: event.target.value, idCard: parseInt(event.target.options[event.target.options.selectedIndex].getAttribute('data-key'))});
+                  setCardSelected({
+                    value: event.target.value, 
+                    name: event.target.value.split(" - ")[1],
+                    idCard: parseInt(event.target.options[event.target.options.selectedIndex].getAttribute('data-key'))
+                  });
                 }}>
                 <option>{"Preenche uma opção"}</option>
                 {cards.map(card => {
                   return (
-                    <option key={card.id} data-key={card.id}>
+                    <option key={card.id} data-key={card.id} name={card.name}>
                       {card.bank.name + " - " + card.name + " - " + card.agency + " - " + card.account}
                     </option>
                   );

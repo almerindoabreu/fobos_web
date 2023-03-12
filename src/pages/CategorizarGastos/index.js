@@ -49,7 +49,7 @@ const CategorizarGastosPage = () => {
   }
 
   const editValues = async (id) => {
-    const response = await api.get("/api/Statement/show/" + id);
+    const response = await api.get("/api/Statement/Statements/" + id);
     setStatement(response.data);
     console.log(statement)
     // verify if category type is not empty
@@ -104,7 +104,7 @@ const CategorizarGastosPage = () => {
   }
 
   const loadCategories = async (categoryTypeId, categoryTypeName) => {
-    const response = await api.get("/api/category/categories/" + categoryTypeId);
+    const response = await api.get("/api/category/categoriesByCategoryType/" + categoryTypeId);
     setCategoryType({...categoryType, name: categoryTypeName});
     setCategories(response.data)
   }
@@ -157,9 +157,9 @@ const CategorizarGastosPage = () => {
             <Form.Group as={Col} md="4" controlId="categoria">
               <Form.Label>Categoria</Form.Label>
               <Form.Control type="text" as="select"
-                value={(statement.category ? statement.category.name : '')}
+                value={(statement.Category ? statement.Category.name : '')}
                 onChange={event => {
-                  setStatement({...statement, category: {categoryType: {name: event.target.value}}, fkCategory: parseInt(event.target.options[event.target.options.selectedIndex].getAttribute('data-key'))});
+                  setStatement({...statement, Category: {categoryType: {name: event.target.value}}, fkCategory: parseInt(event.target.options[event.target.options.selectedIndex].getAttribute('data-key'))});
                 }}>
                   <option>Selecione uma opção</option>
                   {categories.map((category) => (

@@ -6,11 +6,13 @@ import * as S from "./styled"
 import TableHeader from "./TableHeader"
 import TableBody from "./TableBody"
 import Pagination from "./Pagination"
+import LoadAction from "../LoadAction"
 
 const Table = (props) => {
   const [pageNumer, setPageNumber] = useState(0);
   const [pageSelected, setPageSelected] = useState(1);
   const [dataSet, setDataSet] = useState([]);
+  const [loadingTable, setLoadingTable] = useState(true);
 
   useEffect(() => {
     setDataSet(props.datas);  
@@ -51,9 +53,10 @@ const Table = (props) => {
           <TableHeader header={props.header} headerAction={props.action} dataSet={dataSet} 
             setDataSet={setDataSet} dynamicSort={dynamicSort}/>
         </S.THeader>
-        <S.TBody>
-          <TableBody rowPerPage={25} pageSelected={pageSelected} datas={dataSet} header={props.header} bodyAction={props.action} editValues={props.editValues} deleteValues={props.deleteValues}/>
-        </S.TBody>
+          <S.TBody>
+            <LoadAction activated={props.loadingTable} /> 
+              <TableBody rowPerPage={25} itemSelected={props.itemSelected} pageSelected={pageSelected} datas={dataSet} header={props.header} bodyAction={props.action} editValues={props.editValues} deleteValues={props.deleteValues}/>
+          </S.TBody>
       </S.WrapperDatas>
     </S.WrapperTable>
   );

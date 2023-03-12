@@ -37,6 +37,7 @@ export const TableOrderButton = styled.a`
 export const THeader = styled.thead`
 `
 export const TBody = styled.tbody`
+  position: relative;
 `
 
 export const TableThColumnWrapper = styled.div`

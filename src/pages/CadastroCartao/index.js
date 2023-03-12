@@ -65,18 +65,14 @@ const CadastroCartaoPage = (props) => {
   }
 
   const editValues = async (id) => {
-    props.setLoadingScreen(true);
 
-    const response = await api.get("/api/card/show/" + id);
+    const response = await api.get("/api/card/cards/" + id);
     setCard(response.data, {bank: response.data.bank.name});
     //indexCard();
-
-    props.setLoadingScreen(false);
   }
 
   const deleteValues = async (id) => {
     const response = await api.put("/api/card/delete/" + id);
-    setCard(response.data);
     setResposta(response.data);
     indexCard();
   }

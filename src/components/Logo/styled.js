@@ -6,8 +6,8 @@ export const LogoWrapper = styled.div`
   flex-direction: column;
   align-self: right;
   margin: 40px 100px;
-  margin-bottom: ${props => (props.headerMode == 'high-mode' ? "40px" : "0px")};
-  margin-top: ${props => (props.headerMode == 'high-mode' ? "40px" : "0px")};
+  margin-bottom: ${props => (props.headerMode == 'high-mode' ? "0px" : "0px")};
+  margin-top: ${props => (props.headerMode == 'high-mode' ? "20px" : "0px")};
 `
 
 export const Title = styled.p`

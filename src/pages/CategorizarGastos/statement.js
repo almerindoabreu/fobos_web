@@ -1,6 +1,8 @@
 export const Statement = {
   name: "",
-  card: "",
+  card: {
+    name: "",
+  },
   value: "",
   date: "",
   description: "",

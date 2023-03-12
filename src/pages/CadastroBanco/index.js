@@ -48,7 +48,7 @@ const CadastroBancoPage = () => {
   }
 
   const editValues = async (id) => {
-    const response = await api.get("/api/bank/show/" + id);
+    const response = await api.get("/api/bank/banks/" + id);
     setBank(response.data);
     indexBank();
   }
